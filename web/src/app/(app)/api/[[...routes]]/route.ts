@@ -44,9 +44,6 @@ async function checkAuth(c: Context, next: Next, headers?: HeadersInit) {
   await next();
 }
 
-app.use("/run", checkAuth);
-app.use("/upload-url", checkAuth);
-
 const corsHandler = cors({
   origin: "*",
   allowHeaders: ["Authorization", "Content-Type"],
@@ -59,6 +56,8 @@ const corsHandler = cors({
 // CORS Check
 app.use("/workflow", corsHandler, checkAuth);
 app.use("/workflow-version/*", corsHandler, checkAuth);
+app.use("/run", corsHandler, checkAuth);
+app.use("/upload-url", corsHandler, checkAuth);
 
 // create run endpoint
 registerCreateRunRoute(app);
